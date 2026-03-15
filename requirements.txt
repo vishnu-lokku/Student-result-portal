@@ -1,7 +1,2 @@
 Flask==2.3.3
-flask-mail==0.9.1
-qrcode==7.4.2
-Pillow==10.0.0
-python-dotenv==1.0.0
-gunicorn
-sqlite3
+gunicorn==21.2.0
