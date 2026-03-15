@@ -3,3 +3,4 @@ gunicorn
 Flask-Mail
 python-dotenv
 xhtml2pdf
+python-bidi==0.4.2
