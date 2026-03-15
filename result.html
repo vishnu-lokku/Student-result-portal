@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result - Student Results Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-file-alt"></i> Your Result</h1>
+
+             <a href="{{ url_for('download_result_pdf', roll_number=student.roll_number) }}" 
+                class="btn pdf-btn">
+                 <i class="fas fa-download"></i> Download PDF
+             </a>
+
+            <a href="{{ url_for('student_logout') }}" class="btn logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+        
+        <div class="result-card">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h2><i class="fas fa-user-graduate"></i> {{ student.name }}</h2>
+                <p><strong><i class="fas fa-id-card"></i> Roll Number:</strong> {{ student.roll_number }}</p>
+                <p><strong><i class="fas fa-school"></i> Class:</strong> {{ student.class }}</p>
+            </div>
+            
+            <table class="result-table">
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Marks (out of 100)</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for mark in marks %}
+                    <tr>
+                        <td><i class="fas fa-book"></i> {{ mark.subject }}</td>
+                        <td>{{ mark.marks }}</td>
+                        <td>
+                            {% if mark.marks >= 33 %}
+                            <span style="color: #48bb78;"><i class="fas fa-check-circle"></i> Pass</span>
+                            {% else %}
+                            <span style="color: #f56565;"><i class="fas fa-times-circle"></i> Fail</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td><strong>Total</strong></td>
+                        <td colspan="2"><strong>{{ total }}/500</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Percentage</strong></td>
+                        <td colspan="2"><strong>{{ percentage }}%</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Grade</strong></td>
+                        <td colspan="2">
+                            <strong>
+                                {% if grade == 'A+' %}A+ (Excellent)
+                                {% elif grade == 'A' %}A (Very Good)
+                                {% elif grade == 'B+' %}B+ (Good)
+                                {% elif grade == 'B' %}B (Above Average)
+                                {% elif grade == 'C' %}C (Average)
+                                {% elif grade == 'D' %}D (Pass)
+                                {% else %}F (Fail)
+                                {% endif %}
+                            </strong>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+            
+            <div class="result-status">
+                {% if percentage >= 33 %}
+                <p class="pass">
+                    <i class="fas fa-trophy"></i> 
+                    Congratulations! You have passed with {{ grade }} grade.
+                </p>
+                {% else %}
+                <p class="fail">
+                    <i class="fas fa-frown"></i> 
+                    Sorry! You have failed. Better luck next time.
+                </p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <p style="margin-top: 20px; text-align: center;">
+            <a href="{{ url_for('index') }}">
+                <i class="fas fa-home"></i> Back to Home
+            </a>
+        </p>
+    </div>
+</body>
+</html>

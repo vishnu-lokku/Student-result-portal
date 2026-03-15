@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Results Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="card-container">
+    <!-- Existing cards -->
+    
+    <div class="card">
+        <h2><i class="fas fa-trophy"></i> Leaderboard</h2>
+        <p>See top performers</p>
+        <a href="{{ url_for('leaderboard') }}" class="btn" style="background: #fbbf24;">View</a>
+    </div>
+</div>
+    <div class="container">
+        <h1>📚 Student Results Portal</h1>
+        <p>Welcome! Please choose your login type:</p>
+        
+        <div class="card-container">
+            <div class="card">
+                <h2>👨‍🏫 Admin</h2>
+                <p>Add students and manage results</p>
+                <a href="/admin/login" class="btn admin-btn">Admin Login</a>
+            </div>
+            
+            <div class="card">
+                <h2>👨‍🎓 Student</h2>
+                <p>Check your exam results</p>
+                <a href="/student/login" class="btn student-btn">Student Login</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

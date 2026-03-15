@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Result - {{ student.name }}</title>
+    <style>
+        @page { size: A4; margin: 2cm; }
+        body { font-family: Helvetica, Arial, sans-serif; color: #333; }
+        .header {
+            text-align: center; margin-bottom: 30px;
+            border-bottom: 3px solid #667eea; padding-bottom: 20px;
+        }
+        .header h1 { color: #667eea; font-size: 28px; margin-bottom: 5px; }
+        .student-info {
+            background: #f8f9fa; padding: 15px; border-radius: 8px;
+            margin-bottom: 30px; border-left: 5px solid #667eea;
+        }
+        .info-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 15px; margin-top: 10px;
+        }
+        table {
+            width: 100%; border-collapse: collapse; margin: 25px 0;
+        }
+        th {
+            background: #667eea; color: white; padding: 12px;
+            text-align: left;
+        }
+        td {
+            padding: 10px 12px; border-bottom: 1px solid #e2e8f0;
+        }
+        .summary {
+            background: #f0f4f8; padding: 20px; border-radius: 8px;
+            margin-top: 30px;
+        }
+        .summary-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 15px; text-align: center;
+        }
+        .summary-item .value {
+            font-size: 24px; font-weight: bold; color: #667eea;
+        }
+        .pass { color: #48bb78; font-weight: bold; }
+        .fail { color: #f56565; font-weight: bold; }
+        .footer {
+            text-align: center; margin-top: 40px; font-size: 12px;
+            color: #999; border-top: 1px solid #e2e8f0; padding-top: 20px;
+        }
+        .status-badge {
+            display: inline-block; padding: 5px 15px; border-radius: 20px;
+            font-size: 14px; font-weight: bold;
+        }
+        .status-pass { background: #48bb78; color: white; }
+        .status-fail { background: #f56565; color: white; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>STUDENT RESULTS PORTAL</h1>
+        <p>Official Grade Report</p>
+        <p>Generated on: {{ date }}</p>
+    </div>
+    
+    <div class="student-info">
+        <h2>Student Information</h2>
+        <div class="info-grid">
+            <div><strong>Name:</strong> {{ student.name }}</div>
+            <div><strong>Roll Number:</strong> {{ student.roll_number }}</div>
+            <div><strong>Class:</strong> {{ student.class }}</div>
+        </div>
+    </div>
+    
+    <h3>Examination Results</h3>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Marks Obtained</th>
+                <th>Max Marks</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mark in marks %}
+            <tr>
+                <td><strong>{{ mark.subject }}</strong></td>
+                <td>{{ mark.marks }}</td>
+                <td>100</td>
+                <td class="{% if mark.marks >= 33 %}pass{% else %}fail{% endif %}">
+                    {% if mark.marks >= 33 %}✓ PASS{% else %}✗ FAIL{% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <div class="summary">
+        <h3>Performance Summary</h3>
+        <div class="summary-grid">
+            <div class="summary-item">
+                <div class="label">Total</div>
+                <div class="value">{{ total }}/500</div>
+            </div>
+            <div class="summary-item">
+                <div class="label">Percentage</div>
+                <div class="value">{{ percentage }}%</div>
+            </div>
+            <div class="summary-item">
+                <div class="label">Grade</div>
+                <div class="value">{{ grade }}</div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            {% if percentage >= 33 %}
+            <span class="status-badge status-pass">✓ PASS</span>
+            {% else %}
+            <span class="status-badge status-fail">✗ FAIL</span>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>This is a computer generated document.</p>
+        <p>© Student Results Portal</p>
+    </div>
+</body>
+</html>

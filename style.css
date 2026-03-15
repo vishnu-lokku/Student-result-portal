@@ -1,0 +1,397 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 2.5em;
+}
+
+h2 {
+    color: #444;
+    margin: 20px 0;
+}
+
+h3 {
+    color: #555;
+    margin: 15px 0;
+}
+
+/* Edit button styles */
+.edit-btn {
+    background-color: #4299e1;
+    color: white;
+    padding: 5px 10px;
+    font-size: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
+
+.edit-btn:hover {
+    background-color: #3182ce;
+    text-decoration: none;
+    color: white;
+}
+
+.edit-btn i {
+    margin-right: 3px;
+}
+
+/* Action buttons container */
+td form, td a {
+    margin: 0;
+}
+
+/* For the button group */
+.action-buttons {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .edit-btn, .delete-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* PDF Button */
+.pdf-btn {
+    background: #48bb78;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.pdf-btn:hover {
+    background: #38a169;
+    transform: translateY(-2px);
+    color: white;
+}
+
+/* Email Button */
+.email-btn {
+    background: #4299e1;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.email-btn:hover {
+    background: #3182ce;
+}
+
+/* Card Styles */
+.card-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h2 {
+    margin-bottom: 15px;
+}
+
+.card p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Button Styles */
+.btn {
+    display: inline-block;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.admin-btn {
+    background: #667eea;
+    color: white;
+}
+
+.admin-btn:hover {
+    background: #5a67d8;
+}
+
+.student-btn {
+    background: #48bb78;
+    color: white;
+}
+
+.student-btn:hover {
+    background: #38a169;
+}
+
+.logout-btn {
+    background: #f56565;
+    color: white;
+    font-size: 14px;
+    padding: 8px 20px;
+}
+
+.logout-btn:hover {
+    background: #e53e3e;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #e2e8f0;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.login-form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* Student Form */
+.student-form {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+.form-row, .marks-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+/* Table Styles */
+.students-table, .result-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.students-table th,
+.students-table td,
+.result-table th,
+.result-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.students-table th,
+.result-table th {
+    background: #667eea;
+    color: white;
+}
+
+.students-table tr:hover,
+.result-table tr:hover {
+    background: #f7fafc;
+}
+
+/* Result Card */
+.result-card {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.result-table {
+    margin: 20px 0;
+}
+
+.result-status {
+    text-align: center;
+    font-size: 1.5em;
+    margin-top: 20px;
+}
+
+.pass {
+    color: #48bb78;
+}
+
+.fail {
+    color: #f56565;
+}
+
+/* Delete button styles */
+.delete-btn {
+    background-color: #f56565;
+    color: white;
+    padding: 5px 10px;
+    font-size: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.delete-btn:hover {
+    background-color: #c53030;
+}
+
+/* Optional: Add icon spacing */
+.delete-btn i {
+    margin-right: 5px;
+}
+
+/* Success message styling */
+.success {
+    background: #c6f6d5;
+    color: #22543d;
+    padding: 12px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Message Styles */
+.error {
+    background: #fed7d7;
+    color: #c53030;
+    padding: 12px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.success {
+    background: #c6f6d5;
+    color: #22543d;
+    padding: 12px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+/* Links */
+a {
+    color: #667eea;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+    
+    h1 {
+        font-size: 2em;
+    }
+    
+    .card-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .card {
+        width: 100%;
+    }
+    
+    .form-row, .marks-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .students-table {
+        overflow-x: auto;
+        display: block;
+    }
+}

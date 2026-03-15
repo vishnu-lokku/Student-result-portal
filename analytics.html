@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .analytics-container { padding: 20px; }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .stat-card i { font-size: 40px; margin-bottom: 15px; }
+        .stat-card .stat-value { font-size: 36px; font-weight: bold; }
+        .stat-card .stat-label { font-size: 16px; opacity: 0.9; }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .chart-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .chart-card h3 {
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .top-performers {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .performer-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .performer-card {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .performer-card .rank { font-size: 24px; font-weight: bold; }
+        .performer-card .name { font-size: 18px; margin: 5px 0; }
+        .performer-card .score { font-size: 16px; opacity: 0.9; }
+        
+        .no-data {
+            text-align: center;
+            padding: 50px;
+            color: #999;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-chart-line"></i> Analytics Dashboard</h1>
+            <a href="{{ url_for('admin_dashboard') }}" class="btn admin-btn">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+        </div>
+        
+        <div class="analytics-container">
+            {% if total_students == 0 %}
+                <div class="no-data">
+                    <i class="fas fa-database fa-4x"></i>
+                    <p>No students found. Add some students to see analytics!</p>
+                </div>
+            {% else %}
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <div class="stat-value">{{ total_students }}</div>
+                        <div class="stat-label">Total Students</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <i class="fas fa-trophy"></i>
+                        <div class="stat-value">
+                            {% if top_students %}{{ top_students[0].name }}{% else %}N/A{% endif %}
+                        </div>
+                        <div class="stat-label">Top Performer</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <i class="fas fa-star"></i>
+                        <div class="stat-value">{{ grade_distribution['A+'] + grade_distribution['A'] }}</div>
+                        <div class="stat-label">Top Grades (A/A+)</div>
+                    </div>
+                </div>
+                
+                <!-- Charts -->
+                <div class="charts-grid">
+                    <!-- Grade Distribution Chart -->
+                    <div class="chart-card">
+                        <h3><i class="fas fa-pie-chart"></i> Grade Distribution</h3>
+                        <canvas id="gradeChart"></canvas>
+                    </div>
+                    
+                    <!-- Subject Averages Chart -->
+                    <div class="chart-card">
+                        <h3><i class="fas fa-bar-chart"></i> Subject Averages</h3>
+                        <canvas id="subjectChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Top Performers -->
+                <div class="top-performers">
+                    <h3><i class="fas fa-crown"></i> Top 5 Performers</h3>
+                    <div class="performer-list">
+                        {% for student in top_students %}
+                        <div class="performer-card">
+                            <div class="rank">#{{ loop.index }}</div>
+                            <div class="name">{{ student.name }}</div>
+                            <div class="score">{{ student.percentage }}% ({{ student.grade }})</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    {% if total_students > 0 %}
+    <script>
+        // Grade Distribution Chart
+        const gradeCtx = document.getElementById('gradeChart').getContext('2d');
+        new Chart(gradeCtx, {
+            type: 'pie',
+            data: {
+                labels: ['A+', 'A', 'B+', 'B', 'C', 'D', 'F'],
+                datasets: [{
+                    data: [
+                        {{ grade_distribution['A+'] }},
+                        {{ grade_distribution['A'] }},
+                        {{ grade_distribution['B+'] }},
+                        {{ grade_distribution['B'] }},
+                        {{ grade_distribution['C'] }},
+                        {{ grade_distribution['D'] }},
+                        {{ grade_distribution['F'] }}
+                    ],
+                    backgroundColor: ['#48bb78', '#4299e1', '#9f7aea', '#ed8936', '#ecc94b', '#f56565', '#718096']
+                }]
+            }
+        });
+        
+        // Subject Averages Chart
+        const subjectCtx = document.getElementById('subjectChart').getContext('2d');
+        new Chart(subjectCtx, {
+            type: 'bar',
+            data: {
+                labels: {{ subject_averages.keys()|list|tojson }},
+                datasets: [{
+                    label: 'Average Marks',
+                    data: {{ subject_averages.values()|list|tojson }},
+                    backgroundColor: '#4299e1'
+                }]
+            },
+            options: {
+                scales: { y: { beginAtZero: true, max: 100 } }
+            }
+        });
+    </script>
+    {% endif %}
+</body>
+</html>
