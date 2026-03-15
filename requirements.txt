@@ -1,5 +1,5 @@
-Flask==2.3.3
-gunicorn==21.2.0
-Flask-Mail==0.9.1
-python-dotenv==1.0.1
-xhtml2pdf==0.2.15
+Flask
+gunicorn
+Flask-Mail
+python-dotenv
+xhtml2pdf
